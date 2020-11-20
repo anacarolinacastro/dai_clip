@@ -1,7 +1,7 @@
 # DAI Clip
 
 
-Generate a FFMPEG command to download the HLS DAI ads clip.
+Generate a FFMPEG command to download the HLS Google DAI ads clip given an [asset key](asset_key).
 
 ## Running
 
