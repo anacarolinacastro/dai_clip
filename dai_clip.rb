@@ -11,7 +11,7 @@ class DAIClip
 
       raise 'Segments no found' if segments.empty?
 
-      FFMPEG.join(segments, variant.height, variant.width, variant.frame_rate, opts[:output_name])
+      FFMPEG.generate_clip_command(segments, variant.height, variant.width, variant.frame_rate, opts[:output_name])
     rescue Exception => e
       puts "Error fetching clip: #{e}"
     end
