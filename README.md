@@ -15,7 +15,7 @@ ruby dai_clip.rb --asset_key=my-asset-key --offset=3 --ogncluster=abc --bitrate=
 #### bitrate
 Chooses the variant bitrate to be downloaded
 
-Usage:
+*Usage:*
 
 ```
 -bBITRATE
@@ -30,7 +30,7 @@ or
 #### asset_key
 Asset key to fetch DAI manifest
 
-Usage:
+*Usage:*
 
 ```
 -aASSET_KEY
@@ -45,7 +45,7 @@ or
 #### ogncluster
 User cluster param for segmented AD
 
-Usage:
+*Usage:*
 
 ```
 -oOGNCLUSTER
@@ -60,7 +60,7 @@ or
 #### offset
 The number of segments of the stream to use before and after the AD
 
-Usage:
+*Usage:*
 
 ```
 -OOFFSET
@@ -75,7 +75,7 @@ or
 #### output_name
 The name for the output file
 
-Usage:
+*Usage:*
 
 ```
 -nNAME
@@ -90,7 +90,7 @@ or
 #### override
 Override output file
 
-Usage:
+*Usage:*
 
 ```
 -y
