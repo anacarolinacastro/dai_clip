@@ -5,8 +5,17 @@ Generate a FFMPEG command to download the HLS Google DAI ads clip given an [asse
 
 ## Running
 
-```
+### Usage
+
+``` bash
 ruby dai_clip.rb --asset_key=my-asset-key --offset=3 --ogncluster=abc --bitrate=1234567
+```
+
+### Docker
+
+``` bash
+docker build . -t dai-clip
+docker run -it --rm -e 'EXTRA_OPTS=--asset_key=asset-key --offset=3 --bitrate=1234567' dai-clip
 ```
 
 
