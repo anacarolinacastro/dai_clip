@@ -38,7 +38,7 @@ class DAI
   def self.parse_dai_segments(manifest)
     res = Net::HTTP.get(URI(manifest))
     content = res.split("\n")
-    all_segments = content.filter { |l| l.end_with?(".ts") }
+    all_segments = content.select { |l| l.end_with?(".ts") }
     filter_dai_segments_range(all_segments)
   end
 
