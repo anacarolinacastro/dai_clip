@@ -9,9 +9,10 @@ class DAIClip
       variant = DAI.fetch_variant(master_url, opts[:bitrate])
       segments = DAI.parse_dai_segments(variant.uri)
 
-      raise 'Segments no found' if segments.empty?
+      raise 'Segments not found' if segments.empty?
 
-      FFMPEG.generate_clip_command(segments, variant.height, variant.width, variant.frame_rate, opts[:output_name])
+
+      puts FFMPEG.generate_clip_command(segments, variant.height, variant.width, variant.frame_rate, opts[:output_name])
     rescue Exception => e
       puts "Error fetching clip: #{e}"
     end

@@ -1,22 +1,19 @@
 require 'net/http'
 require 'nokogiri'
 require 'm3u8'
+require 'json'
 
 class DAI
   def self.fetch_master(asset_key, ogncluster = nil)
     puts "Fetching master for asset key '#{asset_key}'"
-    puts "Using ogncluster: '#{ogncluster}'" if ogncluster
-    query_string = "?cust_params=ogncluster%3D#{ogncluster}" if ogncluster
-    url = "https://dai.google.com/linear/hls/event/#{asset_key}/master.m3u8#{query_string}"
-    res = Net::HTTP.get_response(URI(url))
+    # puts "Using ogncluster: '#{ogncluster}'" if ogncluster
 
-    raise "Asset key '#{asset_key}' not found!" if res.code != "302"
+    url = "https://dai.google.com/linear/v1/hls/event/#{asset_key}/stream"
+    res = Net::HTTP.post_form(URI(url), {})
 
-    parsed_data = Nokogiri::HTML.parse(res.body)
-    url = parsed_data.xpath("//a").first.values[0]
-    puts "Found segmented manifest: #{url}"
+    raise "Asset key '#{asset_key}' not found!" if res.code != "201"
 
-    url
+    JSON.parse(res.body)['stream_manifest']
   end
 
   def self.fetch_variant(master_url, bitrate)
@@ -56,7 +53,8 @@ class DAI
       end
     end
 
-    raise "DAI not found" if last == -1
+    raise "DAI break found but still airing" if (first > 0 && last == -1)
+    raise "DAI break not found" if last == -1
 
     first = first > offset.to_i ? first - offset.to_i : first
     last = last + offset.to_i < segments.count - 1 ? last + offset.to_i : last

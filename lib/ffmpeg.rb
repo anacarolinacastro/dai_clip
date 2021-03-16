@@ -1,5 +1,6 @@
 class FFMPEG
   def self.generate_clip_command(segments, heigth, width, fps, output_filename = "output.mp4")
+    output_filename = "output.mp4"
     command = "ffmpeg "
     segments.each { |s| command << "-i \"#{s}\" \\\n" }
     command << "-filter_complex \\\n \""
