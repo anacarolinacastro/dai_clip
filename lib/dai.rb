@@ -12,11 +12,11 @@ class DAI
     res = Net::HTTP.post_form(URI(url), {})
 
     raise "Asset key '#{asset_key}' not found!" if res.code != "201"
-
     JSON.parse(res.body)['stream_manifest']
   end
 
   def self.fetch_variant(master_url, bitrate)
+    master_url = "https://dai.google.com#{master_url.split("=").last}"
     res = Net::HTTP.get_response(URI(master_url))
 
     raise "Failed to fetch master playlist" if res.code != "200"
@@ -32,11 +32,12 @@ class DAI
     variant
   end
 
-  def self.parse_dai_segments(manifest)
+  def self.parse_dai_segments(manifest, domain)
+    manifest = "https://dai.google.com#{manifest}"
     res = Net::HTTP.get(URI(manifest))
     content = res.split("\n")
     all_segments = content.select { |l| l.end_with?(".ts") }
-    filter_dai_segments_range(all_segments)
+    filter_dai_segments_range(all_segments).collect {|s| replace_domain(s, domain)}
   end
 
   private
@@ -60,6 +61,11 @@ class DAI
     last = last + offset.to_i < segments.count - 1 ? last + offset.to_i : last
 
     segments[first..last]
+  end
+
+  def self.replace_domain(segment, domain)
+    return segment if google_domain(segment)
+    "#{domain}#{segment}"
   end
 
   def self.first_break?(segment, first)
